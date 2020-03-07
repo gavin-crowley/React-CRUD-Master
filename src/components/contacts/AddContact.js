@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import uuid from 'uuid';
 
 class AddContact extends Component {
     state = {
@@ -10,7 +11,12 @@ class AddContact extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        console.log(this.state);
+        this.props.addContact(this.state);
+        this.setState({
+            name: '',
+            email: '',
+            phone: ''
+        })
     };
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
