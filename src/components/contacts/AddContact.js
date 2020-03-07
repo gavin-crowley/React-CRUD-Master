@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
-// import uuid from 'uuid';
+import classnames from 'classnames';
 
 class AddContact extends Component {
     state = {
         name: '',
         email: '',
-        phone: ''
+        phone: '',
+        errors: {}
     };
 
     onSubmit = e => {
         e.preventDefault();
 
         this.props.addContact(this.state);
+
+        const { name, email } = this.state;
+
+        if (name === '') {
+            this.setState({ errors: { name: 'Name is required' } });
+            return;
+        }
+
+        if (email === '') {
+            this.setState({ errors: { email: 'Email is required' } });
+            return;
+        }
+
         this.setState({
             name: '',
             email: '',
-            phone: ''
+            phone: '',
+            errors: ''
         })
     };
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
 
     render() {
-        const { name, email, phone } = this.state;
+        const { name, email, phone, errors } = this.state;
 
         return (
             <div className="card mb-3">
@@ -34,22 +49,29 @@ class AddContact extends Component {
                             <input
                                 type="text"
                                 name="name"
-                                className="form-control"
+                                // className="form-control"
+                                className={classnames('form-control form-control-lg', {
+                                    'is-invalid': errors.name
+                                })}
                                 placeholder="Enter name..."
                                 value={name}
                                 onChange={this.onChange}
                             />
+                            {errors.name && <div className="invalid-feedback">{errors.name}</div>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">Email: </label>
                             <input
                                 type="email"
                                 name="email"
-                                className="form-control"
+                                className={classnames('form-control form-control-lg', {
+                                    'is-invalid': errors.email
+                                })}
                                 placeholder="Enter email..."
                                 value={email}
                                 onChange={this.onChange}
                             />
+                            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="phone">Phone: </label>
