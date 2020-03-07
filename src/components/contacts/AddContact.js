@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
+
 class AddContact extends Component {
     state = {
         name: '',
@@ -31,7 +32,10 @@ class AddContact extends Component {
             email: '',
             phone: '',
             errors: ''
-        })
+        });
+
+        // Redirect using history object
+        this.props.history.push('/');
     };
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -41,7 +45,7 @@ class AddContact extends Component {
 
         return (
             <div className="card mb-3">
-                <div className="card-header">Add Contact</div>
+                <div className="card-header bg-dark text-white">Add Contact</div>
                 <div className="card-body">
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
@@ -87,7 +91,7 @@ class AddContact extends Component {
                         <input
                             type="submit"
                             value="Add Contact"
-                            className="btn btn-dark btn-block"
+                            className="btn btn-success btn-block"
                         />
                     </form>
                 </div>
