@@ -3,7 +3,6 @@ import Contacts from './components/contacts/Contacts';
 import Header from './components/layout/Header';
 import AddContact from './components/contacts/AddContact';
 import EditContact from './components/contacts/EditContact';
-// import uuid from 'uuid';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import About from './components/pages/About';
@@ -45,12 +44,10 @@ class App extends Component {
 
   addContact = (contact) => {
     contact.id = (this.state.contacts.length + 1).toString();
-    console.log(contact)
     let contacts = [contact, ...this.state.contacts];
     this.setState({
       contacts
     });
-    console.log(contacts)
   }
 
 
