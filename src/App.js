@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Contacts from './components/contacts/Contacts';
 import Header from './components/layout/Header';
 import AddContact from './components/contacts/AddContact';
-import uuid from 'uuid';
+import EditContact from './components/contacts/EditContact';
+// import uuid from 'uuid';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import About from './components/pages/About';
@@ -43,12 +44,38 @@ class App extends Component {
   };
 
   addContact = (contact) => {
-    contact.id = uuid();
-    let contacts = [contact, ...this.state.contacts];
+    contact.id = this.state.contacts.length + 1
+    console.log(contact)
+    let contacts = [...this.state.contacts, contact];
     this.setState({
       contacts
     });
+    // console.log(contacts)
   }
+
+  editContact = () => {
+    // return (
+    //   ...state,
+    //   contacts: this.state.contacts.map(
+    //     contact =>
+    //       contact.id === action.payload.id
+    //         ? (contact = action.payload)
+    //         : contact
+    //   )
+    // );
+  }
+
+  updateContact = editedContact => {
+    //Axios update will go here...
+    //assing a copy of student array with modified value for the editedStudent.
+    const contacts = this.state.contacts.map(contact => {
+      return contact.id === editedContact.id ? editedContact : contact;
+    });
+    //set new state
+    this.setState({
+      contacts
+    });
+  };
 
   render() {
     return (
@@ -61,6 +88,8 @@ class App extends Component {
                 <Contacts {...props} contacts={this.state.contacts} deleteContact={this.deleteContact} />} />
               <Route exact path="/about" component={About} />
               <Route exact path="/contact/add" render={(props) => <AddContact {...props} addContact={this.addContact} />} />
+              <Route exact path="/contact/edit/:id" render={(props) => <EditContact {...props} {...this.state} updateContact={this.updateContact} />} />
+              {/* <Route exact path="/contact/edit/:id" component={EditContact} /> */}
               <Route component={PageNotFound} />
             </Switch>
           </div>

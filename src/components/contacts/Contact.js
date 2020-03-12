@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Contact extends Component {
   state = {
@@ -15,7 +16,7 @@ class Contact extends Component {
   };
 
   render() {
-    const { name, email, phone } = this.props.contact;
+    const { id, name, email, phone } = this.props.contact;
     const { showContactInfo } = this.state;
 
     return (
@@ -24,7 +25,7 @@ class Contact extends Component {
           {name}{' '}
           <i
             onClick={this.onShowClick}
-            className="fas fa-plus"
+            className="fas fa-sort-down"
             style={{ cursor: 'pointer' }}
           />
           <i
@@ -32,6 +33,17 @@ class Contact extends Component {
             className="fas fa-times"
             style={{ cursor: 'pointer', float: 'right', color: 'red' }}
           />
+          <Link to={`contact/edit/${id}`}>
+            <i
+              className="fas fa-pencil-alt"
+              style={{
+                cursor: 'pointer',
+                float: 'right',
+                color: 'black',
+                marginRight: '1rem'
+              }}
+            />
+          </Link>
         </h4>
         {showContactInfo ? (
           <ul className="list-group">

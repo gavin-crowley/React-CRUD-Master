@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 class AddContact extends Component {
     state = {
+        id: '',
         name: '',
         email: '',
         phone: '',
