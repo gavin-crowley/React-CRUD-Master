@@ -17,10 +17,18 @@ class EditContact extends Component {
     // );
 
     // const contact = res.data;
-    // console.log(this.props.contacts)
-    const { id } = this.props.match.params
 
-    const editItem = this.props.contacts[id - 1]
+    console.log(this.props.contacts)
+    // // console.log(Object.assign({}, this.props.contacts))
+    // const obj = Object.assign({}, this.props.contacts)
+    // console.log(Object.keys(obj));
+    // console.log(this.props.contacts.id)
+    const { id } = this.props.match.params;
+    // console.log(id)
+
+    // const editItem = this.props.contacts[id]
+    const editItem = this.props.contacts.find(contact => contact.id === id);
+    console.log(editItem.name)
     // console.log(editItem)
 
     // console.log(this.props.match.params)
@@ -48,7 +56,8 @@ class EditContact extends Component {
     // console.log(this.props)
     // this.props.EditContact(this.state);
     // e.id = this.props.id;
-    console.log(this.props)
+    // const { id } = this.props.match.params
+    // console.log(id)
 
     // const { name, email, phone } = this.props;
     const { id, name, email, phone } = this.state;

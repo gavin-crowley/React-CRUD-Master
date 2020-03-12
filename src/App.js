@@ -16,19 +16,19 @@ class App extends Component {
   state = {
     contacts: [
       {
-        id: 1,
+        id: '1',
         name: 'John Doe',
         email: 'john@gmail.com',
         phone: '555-555-5555'
       },
       {
-        id: 2,
+        id: '2',
         name: 'Karen Williams',
         email: 'karen@gmail.com',
         phone: '444-444-4444'
       },
       {
-        id: 3,
+        id: '3',
         name: 'Henry Johnson',
         email: 'henry@gmail.com',
         phone: '333-333-333'
@@ -44,26 +44,15 @@ class App extends Component {
   };
 
   addContact = (contact) => {
-    contact.id = this.state.contacts.length + 1
+    contact.id = (this.state.contacts.length + 1).toString();
     console.log(contact)
-    let contacts = [...this.state.contacts, contact];
+    let contacts = [contact, ...this.state.contacts];
     this.setState({
       contacts
     });
-    // console.log(contacts)
+    console.log(contacts)
   }
 
-  editContact = () => {
-    // return (
-    //   ...state,
-    //   contacts: this.state.contacts.map(
-    //     contact =>
-    //       contact.id === action.payload.id
-    //         ? (contact = action.payload)
-    //         : contact
-    //   )
-    // );
-  }
 
   updateContact = editedContact => {
     //Axios update will go here...
@@ -89,7 +78,6 @@ class App extends Component {
               <Route exact path="/about" component={About} />
               <Route exact path="/contact/add" render={(props) => <AddContact {...props} addContact={this.addContact} />} />
               <Route exact path="/contact/edit/:id" render={(props) => <EditContact {...props} {...this.state} updateContact={this.updateContact} />} />
-              {/* <Route exact path="/contact/edit/:id" component={EditContact} /> */}
               <Route component={PageNotFound} />
             </Switch>
           </div>

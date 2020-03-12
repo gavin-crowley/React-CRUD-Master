@@ -12,6 +12,7 @@ class Contacts extends Component {
         <h1>Contacts</h1>
         {contacts.map(contact => (
           <Contact
+            {...contact}
             key={contact.id}
             contact={contact}
             deleteClickHandler={this.props.deleteContact.bind(this, contact.id)}
