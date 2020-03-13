@@ -11,28 +11,43 @@ import PageNotFound from './components/pages/PageNotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+
+const initialContacts = [
+  {
+    id: '1',
+    name: 'John Doe',
+    email: 'john@gmail.com',
+    phone: '555-555-5555'
+  },
+  {
+    id: '2',
+    name: 'Karen Williams',
+    email: 'karen@gmail.com',
+    phone: '444-444-4444'
+  },
+  {
+    id: '3',
+    name: 'Henry Johnson',
+    email: 'henry@gmail.com',
+    phone: '333-333-333'
+  }
+];
+
 class App extends Component {
+
   state = {
-    contacts: [
-      {
-        id: '1',
-        name: 'John Doe',
-        email: 'john@gmail.com',
-        phone: '555-555-5555'
-      },
-      {
-        id: '2',
-        name: 'Karen Williams',
-        email: 'karen@gmail.com',
-        phone: '444-444-4444'
-      },
-      {
-        id: '3',
-        name: 'Henry Johnson',
-        email: 'henry@gmail.com',
-        phone: '333-333-333'
-      }
-    ]
+    contacts: [],
+    id: '',
+    name: '',
+    email: '',
+    phone: ''
+  };
+
+  componentDidMount = () => {
+
+    this.setState({
+      contacts: initialContacts
+    });
   };
 
   deleteContact = id => {
@@ -43,7 +58,8 @@ class App extends Component {
   };
 
   addContact = (contact) => {
-    contact.id = (this.state.contacts.length + 1).toString();
+    contact.id = (initialContacts.length + 1).toString();
+    // contact.id = (this.state.contacts.length + 1).toString();
     let contacts = [contact, ...this.state.contacts];
     this.setState({
       contacts
