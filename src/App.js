@@ -10,57 +10,38 @@ import PageNotFound from './components/pages/PageNotFound';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid';
 
 
-const initialContacts = [
-  {
-    id: '1',
-    name: 'John Doe',
-    email: 'john@gmail.com',
-    phone: '555-555-5555'
-  },
-  {
-    id: '2',
-    name: 'Karen Williams',
-    email: 'karen@gmail.com',
-    phone: '444-444-4444'
-  },
-  {
-    id: '3',
-    name: 'Henry Johnson',
-    email: 'henry@gmail.com',
-    phone: '333-333-333'
-  }
-];
 
 class App extends Component {
 
   state = {
-    contacts: [],
+    contacts: this.returnContacts(),
     id: '',
     name: '',
     email: '',
     phone: ''
   };
 
-  componentDidMount = () => {
+  returnContacts() {
+    if (localStorage.getItem('contacts') === null) localStorage.setItem('contacts', JSON.stringify([]))
+    return JSON.parse(localStorage.getItem('contacts'))
+  }
 
-    this.setState({
-      contacts: initialContacts
-    });
-  };
 
   deleteContact = id => {
-    const contacts = this.state.contacts.filter(contact => contact.id !== id);
+    const contacts = this.returnContacts().filter(contact => contact.id !== id);
+    localStorage.setItem('contacts', JSON.stringify(contacts))
     this.setState({
       contacts
     });
   };
 
   addContact = (contact) => {
-    contact.id = (initialContacts.length + 1).toString();
-    // contact.id = (this.state.contacts.length + 1).toString();
+    contact.id = uuidv4();
     let contacts = [contact, ...this.state.contacts];
+    localStorage.setItem('contacts', JSON.stringify(contacts))
     this.setState({
       contacts
     });
@@ -73,6 +54,7 @@ class App extends Component {
     const contacts = this.state.contacts.map(contact => {
       return contact.id === editedContact.id ? editedContact : contact;
     });
+    localStorage.setItem('contacts', JSON.stringify(contacts))
     //set new state
     this.setState({
       contacts
