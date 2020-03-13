@@ -11,53 +11,64 @@ import PageNotFound from './components/pages/PageNotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
-
+import { db } from './components/config/fbConfig'
 
 
 class App extends Component {
 
   state = {
-    contacts: this.returnContacts(),
+    contacts: [],
     id: '',
     name: '',
     email: '',
     phone: ''
   };
 
-  returnContacts() {
-    if (localStorage.getItem('contacts') === null) localStorage.setItem('contacts', JSON.stringify([]))
-    return JSON.parse(localStorage.getItem('contacts'))
+  componentDidMount() {
+    db.collection('contacts')
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => doc.data());
+        this.setState({ contacts: data });
+      });
   }
-
-
-  deleteContact = id => {
-    const contacts = this.returnContacts().filter(contact => contact.id !== id);
-    localStorage.setItem('contacts', JSON.stringify(contacts))
-    this.setState({
-      contacts
-    });
-  };
 
   addContact = (contact) => {
     contact.id = uuidv4();
-    let contacts = [contact, ...this.state.contacts];
-    localStorage.setItem('contacts', JSON.stringify(contacts))
-    this.setState({
-      contacts
+    db.collection("contacts")
+      .doc(contact.id.toString())
+      .set(contact)
+      .then(function () {
+        console.log("Document successfully written!");
+      })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
+  };
+
+  deleteContact = id => {
+    db.collection('contacts').doc(id).delete().then(function () {
+      console.log("Document successfully deleted!");
+    }).catch(function (error) {
+      console.error("Error removing document: ", error);
     });
-  }
+  };
 
 
   updateContact = editedContact => {
-    //Axios update will go here...
-    //assing a copy of student array with modified value for the editedStudent.
-    const contacts = this.state.contacts.map(contact => {
-      return contact.id === editedContact.id ? editedContact : contact;
-    });
-    localStorage.setItem('contacts', JSON.stringify(contacts))
-    //set new state
-    this.setState({
-      contacts
+
+    this.state.contacts.map(contact => {
+      return contact.id === editedContact.id ? (db.collection('contacts')
+        .doc(editedContact.id)
+        .update(editedContact)
+        .then(function () {
+          console.log("Document successfully updated!");
+        })
+        .catch(function (error) {
+          console.error("Error updating document: ", error);
+        }))
+        :
+        (contact)
     });
   };
 
