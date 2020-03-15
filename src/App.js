@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Contacts from './components/contacts/Contacts';
 import Header from './components/layout/Header';
 import AddContact from './components/contacts/AddContact';
@@ -33,9 +33,9 @@ const initialContacts = [
   }
 ];
 
-class App extends Component {
+const App = () => {
 
-  state = {
+  const state = {
     contacts: [],
     id: '',
     name: '',
@@ -43,61 +43,72 @@ class App extends Component {
     phone: ''
   };
 
-  componentDidMount = () => {
+  // componentDidMount = () => {
 
-    this.setState({
-      contacts: initialContacts
-    });
-  };
+  //   this.setState({
+  //     contacts: initialContacts
+  //   });
+  // };
 
-  deleteContact = id => {
-    const contacts = this.state.contacts.filter(contact => contact.id !== id);
-    this.setState({
-      contacts
-    });
-  };
+  // Setting state
+  const [contacts, setContacts] = useState(initialContacts);
+  const [currentContact, setCurrentContact] = useState(state);
+  const [editing, setEditing] = useState(false);
 
-  addContact = (contact) => {
-    contact.id = (initialContacts.length + 1).toString();
-    // contact.id = (this.state.contacts.length + 1).toString();
-    let contacts = [contact, ...this.state.contacts];
-    this.setState({
-      contacts
-    });
+
+  const deleteContact = id => {
+    // setEditing(false)
+
+    setContacts(contacts.filter(contact => contact.id !== id))
   }
 
+  // deleteContact = id => {
+  //   const contacts = this.state.contacts.filter(contact => contact.id !== id);
+  //   this.setState({
+  //     contacts
+  //   });
+  // };
 
-  updateContact = editedContact => {
-    //Axios update will go here...
-    //assing a copy of student array with modified value for the editedStudent.
-    const contacts = this.state.contacts.map(contact => {
-      return contact.id === editedContact.id ? editedContact : contact;
-    });
-    //set new state
-    this.setState({
-      contacts
-    });
-  };
+  // addContact = (contact) => {
+  //   contact.id = (initialContacts.length + 1).toString();
+  //   // contact.id = (this.state.contacts.length + 1).toString();
+  //   let contacts = [contact, ...this.state.contacts];
+  //   this.setState({
+  //     contacts
+  //   });
+  // }
 
-  render() {
-    return (
-      <Router>
-        <div className="App">
-          <Header branding="Contact Manager" />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" render={(props) =>
-                <Contacts {...props} contacts={this.state.contacts} deleteContact={this.deleteContact} />} />
-              <Route exact path="/about" component={About} />
-              <Route exact path="/contact/add" render={(props) => <AddContact {...props} addContact={this.addContact} />} />
-              <Route exact path="/contact/edit/:id" render={(props) => <EditContact {...props} {...this.state} updateContact={this.updateContact} />} />
-              <Route component={PageNotFound} />
-            </Switch>
-          </div>
+
+  // updateContact = editedContact => {
+  //   //Axios update will go here...
+  //   //assing a copy of student array with modified value for the editedStudent.
+  //   const contacts = this.state.contacts.map(contact => {
+  //     return contact.id === editedContact.id ? editedContact : contact;
+  //   });
+  //   //set new state
+  //   this.setState({
+  //     contacts
+  //   });
+  // };
+
+  return (
+    <Router>
+      <div className="App">
+        <Header branding="Contact Manager" />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" render={(props) =>
+              <Contacts {...props} contacts={contacts} deleteContact={deleteContact} />} />
+            {/* <Route exact path="/" component={Contacts} /> */}
+            <Route exact path="/about" component={About} />
+            {/* <Route exact path="/contact/add" render={(props) => <AddContact {...props} addContact={this.addContact} />} /> */}
+            {/* <Route exact path="/contact/edit/:id" render={(props) => <EditContact {...props} {...this.state} updateContact={this.updateContact} />} /> */}
+            <Route component={PageNotFound} />
+          </Switch>
         </div>
-      </Router>
-    );
-  }
+      </div>
+    </Router>
+  );
 }
 
 export default App;
