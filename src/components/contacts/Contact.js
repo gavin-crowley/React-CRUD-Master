@@ -7,6 +7,9 @@ class Contact extends Component {
     showContactInfo: false
   };
 
+  // const[seeContactInfo, setShowContactInfo] = useState(false);
+  // const showContactInfo = () => setShowContactInfo(!seeContactInfo);
+
 
   onDeleteClick = () => {
     this.props.deleteClickHandler();
