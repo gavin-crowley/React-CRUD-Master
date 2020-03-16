@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import Contacts from './components/contacts/Contacts';
 import Header from './components/layout/Header';
 import AddContact from './components/contacts/AddContact';
@@ -35,67 +35,39 @@ const initialContacts = [
 
 const App = () => {
 
-  const state = {
-    contacts: [],
-    id: '',
-    name: '',
-    email: '',
-    phone: ''
-  };
-
-  // componentDidMount = () => {
-
-  //   this.setState({
-  //     contacts: initialContacts
-  //   });
+  // const state = {
+  //   contacts: [],
+  //   id: '',
+  //   name: '',
+  //   email: '',
+  //   phone: ''
   // };
+
 
   // Setting state
   const [contacts, setContacts] = useState(initialContacts);
-  const [currentContact, setCurrentContact] = useState(state);
-  const [editing, setEditing] = useState(false);
+  const [currentContact, setCurrentContact] = useState(contacts);
 
 
   const deleteContact = id => {
-    // setEditing(false)
-
     setContacts(contacts.filter(contact => contact.id !== id))
   }
-
-  // deleteContact = id => {
-  //   const contacts = this.state.contacts.filter(contact => contact.id !== id);
-  //   this.setState({
-  //     contacts
-  //   });
-  // };
 
   const addContact = contact => {
     contact.id = (contacts.length + 1).toString();
     setContacts([...contacts, contact])
+    // console.log(contacts)
+    // console.log(contact)
   }
 
-  // addContact = (contact) => {
-  //   contact.id = (initialContacts.length + 1).toString();
-  //   // contact.id = (this.state.contacts.length + 1).toString();
-  //   let contacts = [contact, ...this.state.contacts];
-  //   this.setState({
-  //     contacts
-  //   });
-  // }
 
+  const updateContact = (id, updatedContact) => {
+    setContacts(contacts.map(contact => (contact.id === id ? updatedContact : contact)))
+  }
 
-
-  // updateContact = editedContact => {
-  //   //Axios update will go here...
-  //   //assing a copy of student array with modified value for the editedStudent.
-  //   const contacts = this.state.contacts.map(contact => {
-  //     return contact.id === editedContact.id ? editedContact : contact;
-  //   });
-  //   //set new state
-  //   this.setState({
-  //     contacts
-  //   });
-  // };
+  const editRow = contact => {
+    setCurrentContact({ id: contact.id, name: contact.name, email: contact.email, phone: contact.phone })
+  }
 
   return (
     <Router>
@@ -104,11 +76,10 @@ const App = () => {
         <div className="container">
           <Switch>
             <Route exact path="/" render={(props) =>
-              <Contacts {...props} contacts={contacts} deleteContact={deleteContact} />} />
-            {/* <Route exact path="/" component={Contacts} /> */}
+              <Contacts {...props} contacts={contacts} editRow={editRow} deleteContact={deleteContact} />} />
             <Route exact path="/about" component={About} />
             <Route exact path="/contact/add" render={(props) => <AddContact {...props} addContact={addContact} />} />
-            {/* <Route exact path="/contact/edit/:id" render={(props) => <EditContact {...props} {...this.state} updateContact={this.updateContact} />} /> */}
+            <Route exact path="/contact/edit/:id" render={(props) => <EditContact {...props} currentContact={currentContact} updateContact={updateContact} />} />
             <Route component={PageNotFound} />
           </Switch>
         </div>

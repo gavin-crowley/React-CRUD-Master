@@ -3,15 +3,10 @@ import classnames from 'classnames';
 
 
 const AddContact = props => {
-    // state = {
-    //     id: '',
-    //     name: '',
-    //     email: '',
-    //     phone: '',
-    //     errors: {}
-    // };
+
     const initialFormState = { id: null, name: '', email: '', phone: '' }
     const [contact, setContact] = useState(initialFormState)
+    // const [errors, setError] = useState(initialFormState)
 
     const handleInputChange = event => {
         const { name, value } = event.target
@@ -21,14 +16,15 @@ const AddContact = props => {
 
     const onSubmit = e => {
         e.preventDefault();
-
+        if (!contact.name || !contact.email || !contact.phone) return
         props.addContact(contact);
         setContact(initialFormState)
 
-        // const { name, email } = contact;
+        // const { name, email, errors } = contact;
 
         // if (name === '') {
-        //     this.setState({ errors: { name: 'Name is required' } });
+        //     setError({ errors: { name: 'Name is required' } });
+        //     // this.setState({ errors: { name: 'Name is required' } });
         //     return;
         // }
 
@@ -37,21 +33,9 @@ const AddContact = props => {
         //     return;
         // }
 
-        // this.setState({
-        //     name: '',
-        //     email: '',
-        //     phone: '',
-        //     errors: ''
-        // });
-
         // Redirect using history object
         props.history.push('/');
     };
-
-    // onChange = e => this.setState({ [e.target.name]: e.target.value });
-
-
-    // const { name, email, phone, errors } = this.state;
 
     return (
         <div className="card mb-3">
@@ -65,13 +49,13 @@ const AddContact = props => {
                             name="name"
                             // className="form-control"
                             className={classnames('form-control form-control-lg', {
-                                // 'is-invalid': errors.name
+                                // 'is-invalid': contact.errors.name
                             })}
                             placeholder="Enter name..."
                             value={contact.name}
                             onChange={handleInputChange}
                         />
-                        {/* {errors.name && <div className="invalid-feedback">{errors.name}</div>} */}
+                        {/* {contact.errors.name && <div className="invalid-feedback">{contact.errors.name}</div>} */}
                     </div>
                     <div className="form-group">
                         <label htmlFor="email">Email: </label>

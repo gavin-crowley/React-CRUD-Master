@@ -15,6 +15,10 @@ class Contact extends Component {
     this.props.deleteClickHandler();
   };
 
+  onEditClick = () => {
+    this.props.editClickHandler();
+  };
+
   onShowClick = () => {
     this.setState({ showContactInfo: !this.state.showContactInfo });
   };
@@ -41,6 +45,7 @@ class Contact extends Component {
           <Link to={`contact/edit/${id}`}>
             <i
               className="fas fa-pencil-alt"
+              onClick={this.onEditClick}
               style={{
                 cursor: 'pointer',
                 float: 'right',

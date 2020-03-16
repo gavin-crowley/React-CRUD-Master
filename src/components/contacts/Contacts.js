@@ -1,12 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Contact from './Contact';
-// import { Link } from 'react-router-dom';
 
-
-
-// const onShowClick = () => {
-//   this.setState({ showContactInfo: !showContactInfo });
-// };
 
 const Contacts = props => {
 
@@ -23,7 +17,7 @@ const Contacts = props => {
           key={contact.id}
           contact={contact}
           deleteClickHandler={() => props.deleteContact(contact.id)}
-        // onClick={() => props.deleteUser(contact.id)}
+          editClickHandler={() => props.editRow(contact)}
         />
 
       ))}
