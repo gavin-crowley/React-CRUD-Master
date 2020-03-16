@@ -70,7 +70,7 @@ const App = () => {
   // };
 
   const addContact = contact => {
-    contact.id = contacts.length + 1
+    contact.id = (contacts.length + 1).toString();
     setContacts([...contacts, contact])
   }
 
