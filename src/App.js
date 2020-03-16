@@ -69,6 +69,11 @@ const App = () => {
   //   });
   // };
 
+  const addContact = contact => {
+    contact.id = contacts.length + 1
+    setContacts([...contacts, contact])
+  }
+
   // addContact = (contact) => {
   //   contact.id = (initialContacts.length + 1).toString();
   //   // contact.id = (this.state.contacts.length + 1).toString();
@@ -77,6 +82,7 @@ const App = () => {
   //     contacts
   //   });
   // }
+
 
 
   // updateContact = editedContact => {
@@ -101,7 +107,7 @@ const App = () => {
               <Contacts {...props} contacts={contacts} deleteContact={deleteContact} />} />
             {/* <Route exact path="/" component={Contacts} /> */}
             <Route exact path="/about" component={About} />
-            {/* <Route exact path="/contact/add" render={(props) => <AddContact {...props} addContact={this.addContact} />} /> */}
+            <Route exact path="/contact/add" render={(props) => <AddContact {...props} addContact={addContact} />} />
             {/* <Route exact path="/contact/edit/:id" render={(props) => <EditContact {...props} {...this.state} updateContact={this.updateContact} />} /> */}
             <Route component={PageNotFound} />
           </Switch>
